@@ -1,4 +1,4 @@
-const { parser } = require('csv-parse');
+const { parse } = require('csv-parse');
 const fs = require('fs');
 
 const results = [];
@@ -7,6 +7,12 @@ const results = [];
 // this will read the file and gives back array of buffers - these are objects
 // which node uses to represent bits and bytes of information
 fs.createReadStream('kepler_data.csv')
+    .pipe(
+        parse({
+            comment: '#',
+            columns: true,
+        })
+    )
     .on('data', (data) => {
         results.push(data);
     })
